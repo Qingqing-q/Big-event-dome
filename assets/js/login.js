@@ -27,7 +27,6 @@ $(function () {
   $(".reg-form").on("submit", function (e) {
     e.preventDefault();
     let value = $(this).serialize();
-    // console.log(value);
 
     // 发送ajax
     axios
@@ -38,6 +37,29 @@ $(function () {
         }
         layer.msg(res.data.message);
         $("#showLogin").click();
+      });
+  });
+
+  // 登录
+  $(".login-form").on("submit", function (e) {
+    e.preventDefault();
+    let value = $(this).serialize();
+
+    // 发送ajax请求
+    axios
+      .post("http://api-breakingnews-web.itheima.net/api/login", value)
+      .then(function (res) {
+        console.log(res);
+
+        // 将res.data.token存储到内存中
+        localStorage.setItem("token", res.data.token);
+
+        if (res.data.status !== 0) {
+          layer.msg("账号或密码错误!!");
+        }
+        layer.msg(res.data.message, function () {
+          location.href = "/index.html";
+        });
       });
   });
 });
