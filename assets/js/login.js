@@ -29,15 +29,13 @@ $(function () {
     let value = $(this).serialize();
 
     // 发送ajax
-    axios
-      .post("http://api-breakingnews-web.itheima.net/api/reguser", value)
-      .then(function (res) {
-        if (res.data.status !== 0) {
-          return layer.msg(res.data.message);
-        }
-        layer.msg(res.data.message);
-        $("#showLogin").click();
-      });
+    axios.post("/api/reguser", value).then(function (res) {
+      if (res.data.status !== 0) {
+        return layer.msg(res.data.message);
+      }
+      layer.msg(res.data.message);
+      $("#showLogin").click();
+    });
   });
 
   // 登录
@@ -46,20 +44,18 @@ $(function () {
     let value = $(this).serialize();
 
     // 发送ajax请求
-    axios
-      .post("http://api-breakingnews-web.itheima.net/api/login", value)
-      .then(function (res) {
-        console.log(res);
+    axios.post("/api/login", value).then(function (res) {
+      console.log(res);
 
-        // 将res.data.token存储到内存中
-        localStorage.setItem("token", res.data.token);
+      // 将res.data.token存储到内存中
+      localStorage.setItem("token", res.data.token);
 
-        if (res.data.status !== 0) {
-          layer.msg("账号或密码错误!!");
-        }
-        layer.msg(res.data.message, function () {
-          location.href = "/index.html";
-        });
+      if (res.data.status !== 0) {
+        layer.msg("账号或密码错误!!");
+      }
+      layer.msg(res.data.message, function () {
+        location.href = "/index.html";
       });
+    });
   });
 });
